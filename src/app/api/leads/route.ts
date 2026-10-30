@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     if (value.until < now) requests.delete(key);
   // Ephemeral hashed address only; not a durable or distributed abuse system.
   // Netlify's verified client header takes precedence; forwarded fallback is
-  // best effort for local use. Add platform-level limits before enabling CRM.
+  // best effort for local use. The form also has a honeypot and HubSpot spam checks.
   const identity =
     request.headers.get("x-nf-client-connection-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0] ||
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       return response(
         {
           error:
-            "O envio pelo site ainda não está disponível. Seus dados não foram enviados ao CRM. Para falar com a equipe, use o WhatsApp abaixo.",
+            "Não foi possível enviar a solicitação agora. Fale com a equipe pelo WhatsApp.",
           code: "INTEGRATION_UNAVAILABLE",
         },
         503,
