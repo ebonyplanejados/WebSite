@@ -67,7 +67,7 @@ export function validateLead(value: unknown): {
   if (!data.consent)
     errors.consent =
       "É necessário concordar com o uso dos dados para este contato.";
-  if (data.source.length > 160 || !data.source.startsWith("/"))
+  if (data.source.length > 160 || !/^\/(?!\/)[\w\-/]*$/.test(data.source))
     errors.source = "Origem inválida. Recarregue a página.";
   return { valid: Object.keys(errors).length === 0, errors, data };
 }

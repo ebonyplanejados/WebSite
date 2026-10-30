@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { PageIntro } from "@/components/ui";
 import { whatsapp } from "@/lib/site";
 export const metadata: Metadata = {
-  title: "Privacidade — aviso da versão de avaliação",
+  title: "Privacidade",
   description:
-    "Informações sobre o funcionamento dos formulários, serviços externos e privacidade nesta versão de avaliação do site Ebony.",
+    "Informações sobre o formulário, serviços externos e privacidade no site Ebony.",
   alternates: { canonical: "/privacidade" },
   robots: { index: false, follow: true },
 };
@@ -17,43 +17,32 @@ export default function PrivacyPage() {
         title="Cuidado também com os seus dados."
       />
       <article className="privacy wrap">
-        <div className="review-notice">
-          <strong>Versão de avaliação — revisão jurídica pendente</strong>
-          <p>
-            Este aviso descreve o funcionamento implementado nesta versão. A
-            política definitiva precisa ser aprovada antes da ativação da coleta
-            de contatos ou do lançamento comercial.
-          </p>
-        </div>
-        <h2>Formulários nesta versão</h2>
+        <h2>Formulários de contato</h2>
         <p>
-          A integração comercial ainda não está ativa. Os campos são validados
-          no navegador e, ao verificar a disponibilidade de envio, também no
-          servidor. O servidor informa a indisponibilidade; não registra leads
-          em banco de dados nem os envia ao HubSpot. Não apresentamos
-          confirmação de envio sem recebimento efetivo.
+          Ao enviar uma solicitação, os dados são validados no navegador e no
+          servidor e encaminhados ao HubSpot, utilizado pela Ebony para
+          registrar contatos e responder ao pedido. A hospedagem do site é feita
+          pela Netlify. O formulário só mostra confirmação quando o serviço de
+          recebimento aceita a solicitação.
         </p>
         <p>
           Os campos previstos são nome, e-mail, telefone, interesse, organização
           e localização aproximada opcionais, estágio e mensagem. Não informe
           documentos, dados sensíveis ou informações de terceiros.
         </p>
-        <h2>Finalidade e ativação futura</h2>
+        <h2>Finalidade</h2>
         <p>
-          A finalidade pretendida é responder às solicitações de orçamento ou
-          parceria. Antes de ativar o recebimento, a Ebony deverá definir e
-          informar o responsável pelo tratamento, a base legal aplicável, os
-          fornecedores envolvidos, os prazos de retenção e o canal para
-          exercício dos direitos dos titulares. O campo de concordância desta
-          versão não substitui essa definição.
+          Os dados são utilizados para responder a solicitações de orçamento,
+          parceria ou garantia. A concordância no formulário se refere a esse
+          atendimento e não inscreve o visitante em comunicações promocionais.
+          Para solicitar acesso, correção ou exclusão de seus dados, entre em
+          contato pelo canal indicado abaixo.
         </p>
         <h2>Navegação e serviços externos</h2>
         <p>
-          Esta implementação não inclui ferramentas de publicidade, pixels ou
-          rastreadores analíticos. Fontes e imagens são servidas pelo próprio
-          site. A hospedagem poderá gerar registros técnicos de acesso; a
-          configuração e a retenção desses registros devem ser verificadas com o
-          provedor na publicação.
+          Esta implementação não inclui ferramentas de publicidade ou pixels
+          analíticos. Fontes e imagens são servidas pelo próprio site. A
+          hospedagem pode gerar registros técnicos de acesso.
         </p>
         <p>
           Os links de WhatsApp e Instagram abrem serviços externos, sujeitos às
@@ -65,9 +54,8 @@ export default function PrivacyPage() {
         <p>
           O endpoint usa validação de campos, limite de tamanho, verificação de
           origem, campo antiabuso e limitação temporária de tentativas em
-          memória. Os dados dos formulários não são incluídos nos logs da
-          aplicação. A infraestrutura de hospedagem e as políticas de retenção
-          precisam ser revisadas antes da coleta real.
+          memória. O conteúdo dos formulários não é incluído nos logs da
+          aplicação. Em caso de falha, a tela não informa que houve recebimento.
         </p>
         <h2>Contato e direitos</h2>
         <p>
@@ -81,9 +69,7 @@ export default function PrivacyPage() {
           >
             WhatsApp da Ebony <Icon direction="diagonal" />
           </a>
-          . A definição do canal específico de privacidade, dos procedimentos de
-          acesso, correção, exclusão e demais direitos será incluída na política
-          final.
+          .
         </p>
       </article>
     </>

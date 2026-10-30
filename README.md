@@ -33,7 +33,7 @@ npm run test:e2e
 
 O Playwright inicia e encerra o servidor de produção automaticamente. O ambiente cloud possui `/usr/bin/chromium`. Em outras máquinas, execute `npx playwright install --with-deps chromium`; o runner usa esse navegador quando não existe Chromium do sistema. Você também pode informar um executável em `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. O teste mobile usa Chromium com viewport e toque do iPhone 13; não equivale a um teste em Safari ou aparelho físico.
 
-Os testes verificam as 15 páginas editoriais, filtros, galerias/teclado, menu mobile, validação e indisponibilidade do CRM, links internos, 404, SEO básico, transbordamento horizontal e regras automatizadas de acessibilidade com axe. Capturas ficam em `test-results/home-desktop.png` e `home-mobile.png`, ignoradas no Git. Auditoria automática não é certificação WCAG nem medição de Core Web Vitals de usuários reais.
+Os testes verificam as páginas editoriais, filtros, galerias/teclado, menu mobile, validação e envio confirmado simulado, links internos, 404, SEO básico, transbordamento horizontal e regras automatizadas de acessibilidade com axe. Capturas ficam em `test-results/home-desktop.png` e `home-mobile.png`, ignoradas no Git. Auditoria automática não é certificação WCAG nem medição de Core Web Vitals de usuários reais.
 
 ## Conteúdo e manutenção
 
@@ -51,7 +51,7 @@ Consulte `.env.example`. Não é preciso segredo para visualizar o site. `NEXT_P
 
 ## Atendimento
 
-O WhatsApp está configurado com o número confirmado no chat. Os formulários deixam claro que a integração está em preparação. O endpoint valida e responde HTTP 503 enquanto não existe conexão real; não grava dados, não cria contatos e não simula sucesso. Leia `docs/integrations.md` antes de habilitar CRM, armazenamento ou anexos.
+O WhatsApp está configurado com o número confirmado no chat. Os formulários enviam ao HubSpot pelo endpoint servidor `/api/leads` quando `HUBSPOT_FORM_GUID` estiver configurado com o ID de um formulário publicado no portal 51830034. Sem essa configuração, a API devolve HTTP 503 e não simula sucesso. Leia `docs/integrations.md` para configurar os campos, consentimento e verificar o recebimento antes de publicar.
 
 ## Hospedagem
 

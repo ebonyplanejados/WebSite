@@ -85,16 +85,21 @@ test("portfolio filters, empty state and gallery keyboard controls work", async 
   await expect(dialog).not.toBeVisible();
 });
 
-test("contact validation and honest backend unavailability", async ({
+test("contact validation and confirmed backend submission", async ({
   page,
 }) => {
+  await page.route("**/api/leads", (route) =>
+    route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({ received: true, receiptId: "test-receipt" }),
+    }),
+  );
   await page.goto("/contato?tipo=comercial");
   await expect(page.getByLabel("Como podemos ajudar?")).toHaveValue(
     "comercial",
   );
-  await page
-    .getByRole("button", { name: "Verificar disponibilidade de envio" })
-    .click();
+  await page.getByRole("button", { name: "Enviar solicitação" }).click();
   await expect(
     page.getByText("Informe seu nome, entre 2 e 120 caracteres."),
   ).toBeVisible();
@@ -106,18 +111,12 @@ test("contact validation and honest backend unavailability", async ({
     .fill("Quero avaliar um projeto de marcenaria comercial.");
   await page.getByRole("checkbox").check();
   const response = page.waitForResponse((r) => r.url().endsWith("/api/leads"));
-  await page
-    .getByRole("button", { name: "Verificar disponibilidade de envio" })
-    .click();
-  expect((await response).status()).toBe(503);
-  await expect(page.getByRole("status")).toContainText(
-    "Seus dados não foram enviados ao CRM",
-  );
-  const href = await page
-    .getByRole("link", { name: "Continuar pelo WhatsApp" })
-    .getAttribute("href");
-  expect(href).not.toContain("teste%40");
-  expect(href).not.toContain("61999999999");
+  await page.getByRole("button", { name: "Enviar solicitação" }).click();
+  expect((await response).status()).toBe(201);
+  await expect(page.getByRole("status")).toContainText("Solicitação recebida");
+  await expect(
+    page.getByRole("link", { name: "Continuar pelo WhatsApp" }),
+  ).toHaveCount(0);
 });
 
 test("accessible pages, dialog and responsive navigation", async ({

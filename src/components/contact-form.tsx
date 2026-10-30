@@ -20,12 +20,14 @@ export function ContactForm({
   const path = usePathname();
   const [errors, setErrors] = useState<LeadErrors>({});
   const [status, setStatus] = useState("");
+  const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const responseRef = useRef<HTMLDivElement>(null);
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("");
+    setSent(false);
     const f = new FormData(e.currentTarget);
     const data = {
       ...Object.fromEntries(f),
@@ -48,6 +50,7 @@ export function ContactForm({
       });
       const result = await res.json();
       if (res.ok && result.received === true && result.receiptId) {
+        setSent(true);
         setStatus(
           "Solicitação recebida. A equipe poderá retornar pelos contatos informados.",
         );
@@ -110,11 +113,6 @@ export function ContactForm({
         partner ? "Formulário de parceria" : "Formulário de orçamento"
       }
     >
-      <p className="form-note">
-        O envio pelo site está em preparação. Você pode preencher para conferir
-        os dados, mas nenhum contato será enviado ao CRM nesta versão. Para
-        atendimento, converse pelo WhatsApp.
-      </p>
       <div className="form-grid">
         {field("name", "Seu nome", "text", true, "name")}
         {field("phone", "WhatsApp com DDD", "tel", true, "tel")}
@@ -234,9 +232,7 @@ export function ContactForm({
         className="button button-dark form-submit"
         disabled={busy}
       >
-        {busy
-          ? "Verificando disponibilidade…"
-          : "Verificar disponibilidade de envio"}
+        {busy ? "Enviando…" : "Enviar solicitação"}
         <span aria-hidden="true">
           <Icon direction="diagonal" />
         </span>
@@ -244,22 +240,24 @@ export function ContactForm({
       {status && (
         <div
           className="form-response"
-          role="status"
+          role={sent ? "status" : "alert"}
           tabIndex={-1}
           ref={responseRef}
         >
           <p>{status}</p>
-          <a
-            href={whatsapp(defaultType)}
-            className="text-link"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Continuar pelo WhatsApp{" "}
-            <span aria-hidden="true">
-              <Icon direction="diagonal" />
-            </span>
-          </a>
+          {!sent && (
+            <a
+              href={whatsapp(defaultType)}
+              className="text-link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Continuar pelo WhatsApp{" "}
+              <span aria-hidden="true">
+                <Icon direction="diagonal" />
+              </span>
+            </a>
+          )}
         </div>
       )}
     </form>
